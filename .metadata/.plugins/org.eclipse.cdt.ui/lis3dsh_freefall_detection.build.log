@@ -1,0 +1,43 @@
+11:59:05 **** Incremental Build of configuration Debug for project lis3dsh_freefall_detection ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -DSTM32F407xx -c -I../Inc -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Device/ST/STM32F4xx/Include -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+../Src/main.c: In function 'SPI_transmit':
+../Src/main.c:107:11: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  107 |  uint16_t temp;
+      |           ^~~~
+../Src/main.c: In function 'main':
+../Src/main.c:271:5: warning: pointer targets in assignment from 'uint16_t *' {aka 'short unsigned int *'} to 'int16_t *' {aka 'short int *'} differ in signedness [-Wpointer-sign]
+  271 |  ax =(uint16_t*) &RxData[0];
+      |     ^
+../Src/main.c:272:5: warning: pointer targets in assignment from 'uint16_t *' {aka 'short unsigned int *'} to 'int16_t *' {aka 'short int *'} differ in signedness [-Wpointer-sign]
+  272 |  ay =(uint16_t*) &RxData[2];
+      |     ^
+../Src/main.c:273:5: warning: pointer targets in assignment from 'uint16_t *' {aka 'short unsigned int *'} to 'int16_t *' {aka 'short int *'} differ in signedness [-Wpointer-sign]
+  273 |  az =(uint16_t*) &RxData[4];
+      |     ^
+../Src/main.c:269:19: warning: variable 'az' set but not used [-Wunused-but-set-variable]
+  269 |  int16_t *ax,*ay,*az;
+      |                   ^~
+../Src/main.c:269:15: warning: variable 'ay' set but not used [-Wunused-but-set-variable]
+  269 |  int16_t *ax,*ay,*az;
+      |               ^~
+../Src/main.c:269:11: warning: variable 'ax' set but not used [-Wunused-but-set-variable]
+  269 |  int16_t *ax,*ay,*az;
+      |           ^~
+arm-none-eabi-gcc -o "lis3dsh_freefall_detection.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/vish/Documents/stm32/barmetal/lis3dsh_freefall_detection/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lis3dsh_freefall_detection.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: lis3dsh_freefall_detection.elf
+ 
+arm-none-eabi-size   lis3dsh_freefall_detection.elf 
+arm-none-eabi-objdump -h -S  lis3dsh_freefall_detection.elf  > "lis3dsh_freefall_detection.list"
+arm-none-eabi-objcopy  -O binary  lis3dsh_freefall_detection.elf  "lis3dsh_freefall_detection.bin"
+   text	   data	    bss	    dec	    hex	filename
+   6320	    108	   1596	   8024	   1f58	lis3dsh_freefall_detection.elf
+Finished building: default.size.stdout
+ 
+Finished building: lis3dsh_freefall_detection.bin
+ 
+Finished building: lis3dsh_freefall_detection.list
+ 
+
+11:59:05 Build Finished. 0 errors, 7 warnings. (took 481ms)
+

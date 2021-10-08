@@ -1,0 +1,206 @@
+/*
+ * main.c
+ *
+ *  Created on: Sep 25, 2021
+ *      Author: vish
+ */
+
+#include <stm32f4xx.h>
+#include <stdint.h>
+
+//RCC->AHB1ENR bits
+#define GPIOAEN			(1<<0)		//GPIOAEN: IO port A clock enable
+#define GPIOEEN			(1<<4)		//GPIOEEN: IO port E clock enable
+
+
+//RCC->APB2ENR bits
+#define SPI1EN 			(1<<12)		//SPI1LPEN: SPI1 clock enable during Sleep mode
+
+//SPI1->CR1 bits
+#define SPI1_CPHA		(1<<0)		// CPHA: Clock phase
+#define SPI1_CPOL		(1<<1)		// CPOL: Clock polarity
+#define	SPI1_MSTR		(1<<2)		// MSTR: Master selection
+#define SPI1_BAUD		(1<<3) 		// BR[2:0]: Baud rate control (bits 5:3) fPCLK/16, PCLK2 = 16MHz, SPI clk = 4MHz
+#define SPI1_SPE		(1<<6)		// SPE: SPI enable
+#define SPI1_LSBFIRST	(1<<7)		// LSBFIRST: Frame format
+#define SPI1_SSI		(1<<8)		// SSI: Internal slave select	  //replace NSS pin to select slave
+#define SPI1_SSM		(1<<9)		// SSM: Software slave management //because NSS pin is not-connected
+#define SPI1_RXONLY		(1<<10)		// RXONLY: Receive only
+#define SPI1_DFF		(1<<11)		// DFF: Data frame format
+
+//SPI1->SR bits
+#define SPI1_RXNE		(1<<0)		// RXNE: Receive buffer not empty
+#define SPI1_TXE		(1<<1)		// TXE: Transmit buffer empty
+#define SPI1_BSY		(1<<7)		// BSY: Busy flag
+
+/************** SPI_config STEPS TO FOLLOW *****************
+1. Enable SPI clock
+2. Configure the Control Register 1
+3. Configure the CR2
+************************************************/
+void SPI_Config (void)
+{
+	RCC->APB2ENR |= SPI1EN; //enable SPI1 clock
+
+	SPI1->CR1 |= SPI1_CPOL; // cpol = 1, idle_clock is high
+
+	SPI1->CR1 |= SPI1_CPHA;	/* cpha = 1, sample data at second edge
+							 * (rising edge because cpol=1)
+							 */
+
+	SPI1->CR1 |= SPI1_MSTR; // Master Mode
+
+	SPI1->CR1 |= SPI1_BAUD; // BR[2:0] = 011; SSM=1, SSI=1 ->software slave management
+
+	SPI1->CR1 &= ~SPI1_LSBFIRST; // LSBFIRST = 0, set for MSB first
+
+	SPI1->CR1 |= SPI1_SSI | SPI1_SSM;
+
+	 SPI1->CR1 &= ~SPI1_RXONLY;  // RXONLY = 0, full-duplex
+
+	SPI1->CR1 &= ~SPI1_DFF;  // DFF=0, 8 bit data
+
+	SPI1->CR2 = 0;
+
+	SPI1->CR1 |= SPI1_SPE; //Enable SPI module
+}
+
+/************** SPI_transmit STEPS TO FOLLOW *****************
+1. Wait for the TXE bit to set in the Status Register
+2. Write the data to the Data Register
+3. After the data has been transmitted, wait for the BSY bit to reset in Status Register
+4. Clear the Overrun flag by reading DR and SR
+************************************************/
+void SPI_transmit (uint8_t *data, int size)
+{
+	for(uint16_t i=0; i<size; i++)
+	{
+		while(!((SPI1->SR) & SPI1_TXE)); //wait for TXE bit to set		 	 	 	 	 	 	 	 	 */
+
+		SPI1->DR = data[i]; // load the data into the data
+	}
+
+	while(!((SPI1->SR) & SPI1_TXE)); // wait for TXE bit to set (until buffer empty)
+
+	while (((SPI1->SR) & SPI1_BSY)); // wait for BSY bit to Reset (until SPI not busy)
+
+	//clear the overrun flag by reading DR and SR
+	uint16_t temp = SPI1->DR;
+	temp = SPI1->SR;
+}
+
+/************** SPI1_receive STEPS TO FOLLOW *****************
+	1. Wait for the BSY bit to reset in Status Register
+	2. Send some Dummy data before reading the DATA
+	3. Wait for the RXNE bit to Set in the status Register
+	4. Read data from Data Register
+	************************************************/
+
+void SPI_receive (uint8_t *data, int size)
+{
+	for(int i=0; size>0; size--,i++)
+	{
+		while (((SPI1->SR) & SPI1_BSY)); // wait for BSY bit to Reset (until SPI not busy)
+
+		SPI1->DR = 0; //send dummy data
+
+		while (!((SPI1->SR)& SPI1_RXNE));	// Wait for RXNE to set
+
+		data[i] = (SPI1->DR);
+	}
+}
+
+/*
+ * PA5 = SPI1_SCK
+ * PA6 = SPI1_MISO
+ * PA7 = SPI1_MOSI
+ * PE3 =
+ */
+void GPIO_Config (void)
+{
+	RCC->AHB1ENR |= GPIOAEN | GPIOEEN; //enable GPIO port A & port E
+
+	GPIOA->MODER |= (2<<10) | (2<<12) | (2<<14); //PA5, PA6, & PA7 set for alternate function
+	GPIOE->MODER |= (1<<6);	// PE3 set for output
+
+	GPIOA->AFR[0] |= (5<<20)|(5<<24)|(5<<28);   // AF5(SPI1) for PA5, PA6, PA7
+
+}
+
+void SPI_Enable (void)
+{
+	SPI1->CR1 |= SPI1_SPE;   // SPE=1, Peripheral enabled
+}
+
+void SPI_Disable (void)
+{
+	SPI1->CR1 &= ~SPI1_SPE;   // SPE=0, Peripheral Disabled
+}
+
+/*LIS3DSH CS pin other than slave select
+ * also work as mode select pin
+ * to select between I2C and SPI mode
+ * CS=0 for SPI, CS=1 for I2C
+ */
+void CS_Enable (void)
+{
+	GPIOE->ODR &= ~(1<<3); // PE3 pin reset, slave selected
+
+}
+
+void CS_Disable (void)
+{
+	GPIOE->ODR |= (1<<3); // PE3 pin set, put slave idle
+}
+
+float xg, yg, zg;
+int16_t x,y,z;
+uint8_t RxData[6];
+
+void LIS3DSH_write (uint8_t address, uint8_t value)
+{
+	uint8_t data[2];
+	data[0]= address;// | (1<<6);  // multiple write
+	data[1]=value;
+	CS_Enable();//pull cs pin low
+	SPI_transmit(data, 2); // write data to register
+	CS_Disable();	//pull the pin high
+}
+
+void LIS3DSH_read (uint8_t address)
+{
+	address |= (1<<7); //MSB=1 for Read operation
+	//address |= (1<<6);		//for multiple read
+
+	uint8_t rec;
+
+	CS_Enable();	// pull pin low, set slave in SPI mode
+	SPI_transmit (&address, 1);//send address
+	SPI_receive (RxData, 6); // receive 6 bytes data
+	CS_Disable(); //pull the pin high
+}
+
+void lis3dsh_init(void)
+{
+	GPIO_Config();
+	SPI_Config();
+	SPI_Enable();
+
+	LIS3DSH_read(0x0F); //read who_am_I register to confirm selected slave
+
+
+
+}
+
+int main(){
+
+
+	lis3dsh_init();
+
+	while(1)
+	{
+		LIS3DSH_read(0x28);
+	}
+
+	return 0;
+}

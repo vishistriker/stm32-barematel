@@ -1,0 +1,24 @@
+11:16:37 **** Build of configuration Debug for project lis3dsh2_freefall_detection2 ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -DSTM32F407xx -c -I../Inc -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Device/ST/STM32F4xx/Include -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+../Src/main.c: In function 'SPI_transmit':
+../Src/main.c:125:11: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  125 |  uint16_t temp;
+      |           ^~~~
+arm-none-eabi-gcc -o "lis3dsh2_freefall_detection2.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/vish/Documents/stm32/barmetal/lis3dsh2_freefall_detection2/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lis3dsh2_freefall_detection2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: lis3dsh2_freefall_detection2.elf
+ 
+arm-none-eabi-size   lis3dsh2_freefall_detection2.elf 
+arm-none-eabi-objdump -h -S  lis3dsh2_freefall_detection2.elf  > "lis3dsh2_freefall_detection2.list"
+arm-none-eabi-objcopy  -O binary  lis3dsh2_freefall_detection2.elf  "lis3dsh2_freefall_detection2.bin"
+   text	   data	    bss	    dec	    hex	filename
+   1720	      8	   1568	   3296	    ce0	lis3dsh2_freefall_detection2.elf
+Finished building: default.size.stdout
+ 
+Finished building: lis3dsh2_freefall_detection2.list
+Finished building: lis3dsh2_freefall_detection2.bin
+ 
+ 
+
+11:16:37 Build Finished. 0 errors, 1 warnings. (took 597ms)
+

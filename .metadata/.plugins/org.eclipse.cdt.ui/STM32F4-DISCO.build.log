@@ -1,0 +1,7 @@
+17:43:07 **** Incremental Build of configuration Debug for project STM32F4-DISCO ****
+make -j8 all 
+make: *** No rule to make target '/home/vish/Documents/stm32/STM32CubeF4/Middlewares/Third_Party/FatFs/src/option/syscall.c', needed by 'Middlewares/FatFs/Options/syscall.o'.  Stop.
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+
+17:43:07 Build Failed. 1 errors, 0 warnings. (took 240ms)
+

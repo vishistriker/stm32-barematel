@@ -1,0 +1,8 @@
+"./Inc/Delay.o"
+"./Inc/RccConfig.o"
+"./Inc/mpu6050.o"
+"./Inc/twi.o"
+"./Src/main.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32f407vgtx.o"

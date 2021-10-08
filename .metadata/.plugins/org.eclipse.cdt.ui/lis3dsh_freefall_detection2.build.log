@@ -1,0 +1,7 @@
+11:35:56 **** Clean-only build of configuration Debug for project lis3dsh_freefall_detection2 ****
+make -j8 clean 
+rm -rf  default.size.stdout  lis3dsh2_freefall_detection2.list  lis3dsh2_freefall_detection2.elf  ./Startup/startup_stm32f407vgtx.o  ./Src/main.o ./Src/syscalls.o ./Src/sysmem.o  ./Startup/startup_stm32f407vgtx.d  ./Src/main.d ./Src/syscalls.d ./Src/sysmem.d  lis3dsh2_freefall_detection2.bin  lis3dsh2_freefall_detection2.elf
+ 
+
+11:35:56 Build Finished. 0 errors, 0 warnings. (took 350ms)
+

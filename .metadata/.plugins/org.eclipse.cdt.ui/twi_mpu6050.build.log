@@ -1,0 +1,10 @@
+19:43:37 **** Incremental Build of configuration Debug for project twi_mpu6050 ****
+make -j8 all 
+arm-none-eabi-size   twi_mpu6050.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4304	      8	   1600	   5912	   1718	twi_mpu6050.elf
+Finished building: default.size.stdout
+ 
+
+19:43:38 Build Finished. 0 errors, 0 warnings. (took 297ms)
+

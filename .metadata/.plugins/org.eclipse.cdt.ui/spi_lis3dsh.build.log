@@ -1,0 +1,10 @@
+14:57:33 **** Incremental Build of configuration Debug for project spi_lis3dsh ****
+make -j8 all 
+arm-none-eabi-size   spi_lis3dsh.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5928	    108	   1596	   7632	   1dd0	spi_lis3dsh.elf
+Finished building: default.size.stdout
+ 
+
+14:57:33 Build Finished. 0 errors, 0 warnings. (took 232ms)
+

@@ -1,0 +1,16 @@
+19:34:59 **** Incremental Build of configuration Debug for project spi_lis3dsh_2 ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -DSTM32F407xx -c -I../Inc -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Device/ST/STM32F4xx/Include -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+../Src/main.c: In function 'main':
+../Src/main.c:108:5: warning: implicit declaration of function 'set_sysclk_to_168' [-Wimplicit-function-declaration]
+  108 |     set_sysclk_to_168();
+      |     ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "spi_lis3dsh_2.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/vish/Documents/stm32/barmetal/spi_lis3dsh_2/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spi_lis3dsh_2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+/opt/st/stm32cubeide_1.7.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.linux64_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/bin/ld: ./Src/main.o: in function `main':
+/home/vish/Documents/stm32/barmetal/spi_lis3dsh_2/Debug/../Src/main.c:108: undefined reference to `set_sysclk_to_168'
+collect2: error: ld returned 1 exit status
+make: *** [makefile:64: spi_lis3dsh_2.elf] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+
+19:34:59 Build Failed. 3 errors, 1 warnings. (took 437ms)
+

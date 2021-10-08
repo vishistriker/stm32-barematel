@@ -1,0 +1,7 @@
+twi.c:11:6:I2C_Config	4	static
+twi.c:45:6:I2C_Start	4	static
+twi.c:53:6:I2C_Write	16	static
+twi.c:60:6:I2C_Address	24	static
+twi.c:67:6:I2C_Stop	4	static
+twi.c:72:6:I2C_WriteMulti	16	static
+twi.c:85:6:I2C_Read	24	static

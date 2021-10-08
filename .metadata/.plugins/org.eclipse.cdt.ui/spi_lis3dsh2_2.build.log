@@ -1,0 +1,7 @@
+15:56:47 **** Clean-only build of configuration Debug for project spi_lis3dsh2_2 ****
+make -j8 clean 
+rm -rf  default.size.stdout  spi_lis3dsh.list  spi_lis3dsh.elf  ./Startup/startup_stm32f407vgtx.o  ./Src/main.o ./Src/syscalls.o ./Src/sysmem.o  ./Startup/startup_stm32f407vgtx.d  ./Src/main.d ./Src/syscalls.d ./Src/sysmem.d  spi_lis3dsh.bin  spi_lis3dsh.elf
+ 
+
+15:56:48 Build Finished. 0 errors, 0 warnings. (took 227ms)
+

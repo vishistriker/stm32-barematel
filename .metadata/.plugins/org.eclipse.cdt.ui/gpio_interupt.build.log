@@ -1,0 +1,20 @@
+12:57:59 **** Incremental Build of configuration Debug for project gpio_interupt ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -DSTM32F407xx -c -I../Inc -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Device/ST/STM32F4xx/Include -I/opt/st/stm32cubeide_1.7.0/Chipheaders/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "gpio_interupt.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/vish/Documents/stm32/barmetal/gpio_interupt/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="gpio_interupt.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: gpio_interupt.elf
+ 
+arm-none-eabi-size   gpio_interupt.elf 
+arm-none-eabi-objdump -h -S  gpio_interupt.elf  > "gpio_interupt.list"
+arm-none-eabi-objcopy  -O binary  gpio_interupt.elf  "gpio_interupt.bin"
+   text	   data	    bss	    dec	    hex	filename
+   4048	    108	   1596	   5752	   1678	gpio_interupt.elf
+Finished building: default.size.stdout
+ 
+Finished building: gpio_interupt.bin
+ 
+Finished building: gpio_interupt.list
+ 
+
+12:58:00 Build Finished. 0 errors, 0 warnings. (took 542ms)
+
